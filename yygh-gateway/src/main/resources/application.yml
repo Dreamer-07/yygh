@@ -1,0 +1,50 @@
+server:
+  port: 80
+spring:
+  application:
+    name: yygh-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      # 使用服务名进行路由
+      discovery:
+        locator:
+          enabled: true
+      # 配置转发路径
+      routes:
+        - id: service-cmn
+          uri: lb://service-cmn
+          predicates:
+            - Path=/*/cmn/**
+
+        - id: service-hosp
+          uri: lb://service-hosp
+          predicates:
+            - Path=/*/hosp/**
+
+        - id: service-user
+          uri: lb://service-user
+          predicates:
+            - Path=/*/user/**,/*/ucenter/**
+
+        - id: service-sms
+          uri: lb://service-sms
+          predicates:
+            - Path=/*/sms/**
+
+        - id: service-oss
+          uri: lb://service-oss
+          predicates:
+            - Path=/*/oss/**
+
+        - id: service-order
+          uri: lb://service-order
+          predicates:
+            - Path=/*/order/**
+
+        - id: service-statistics
+          uri: lb://service-statistics
+          predicates:
+            - Path=/*/statistics/**

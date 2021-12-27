@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pers.prover07.yygh.order.mapper.OrderMapper">
+
+    <select id="countByReserveDate" resultType="pers.prover07.yygh.vo.order.OrderCountVo">
+        SELECT COUNT(*) AS count,reserve_date FROM `order_info`
+        <where>
+            <if test="orderCountQueryVo.hosname != null and orderCountQueryVo.hosname != ''">
+                AND `hosname` LIKE CONCAT('%',#{orderCountQueryVo.hosname},'%')
+            </if>
+            <if test="orderCountQueryVo.reserveDateBegin != null and orderCountQueryVo.reserveDateBegin != ''">
+                AND reserve_date >= #{orderCountQueryVo.reserveDateBegin}
+            </if>
+            <if test="orderCountQueryVo.reserveDateEnd != null and orderCountQueryVo.reserveDateEnd != ''">
+                AND reserve_date &lt;= #{orderCountQueryVo.reserveDateEnd}
+            </if>
+            and is_deleted = 0
+        </where>
+        GROUP BY `reserve_date` ORDER BY `reserve_date`
+    </select>
+</mapper>
